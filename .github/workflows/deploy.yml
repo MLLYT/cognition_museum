@@ -19,15 +19,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Deep Clean and Force Build
-        # 这个步骤会自动删除原本的 lock 文件，让 npm 模块干净地重装
+     - name: Deep Clean and Force Build
         run: |
           cd client
           npm install --legacy-peer-deps
           npm run build
+          ls -R dist  # 这一行是“探测器”，它会强行在 Log 里显示 dist 文件夹到底在哪
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: client/dist
           branch: gh-pages
+          clean: true
