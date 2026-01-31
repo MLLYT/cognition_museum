@@ -24,15 +24,18 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+          cache-dependency-path: client/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install
+        working-directory: client
 
       - name: Build
         run: pnpm build
+        working-directory: client
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: client/dist
           branch: gh-pages
