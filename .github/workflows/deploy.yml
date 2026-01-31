@@ -24,9 +24,11 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          cache-dependency-path: client/pnpm-lock.yaml
+          # 注意：这里改回根目录，因为你的 lock 文件在外面
+          cache-dependency-path: ./pnpm-lock.yaml
 
       - name: Install dependencies
+        # 虽然 lock 在外面，但安装和打包还是要进 client
         run: pnpm install
         working-directory: client
 
