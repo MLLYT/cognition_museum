@@ -18,23 +18,20 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
+          # 告诉 pnpm 别管根目录有没有 lock 文件
+          run_install: false
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-          # 注意：这里改回根目录，因为你的 lock 文件在外面
-          cache-dependency-path: ./pnpm-lock.yaml
 
-      - name: Install dependencies
-        # 虽然 lock 在外面，但安装和打包还是要进 client
-        run: pnpm install
-        working-directory: client
-
-      - name: Build
-        run: pnpm build
-        working-directory: client
+      - name: Force Install and Build
+        # 进入 client 目录，强制安装依赖并立刻构建
+        run: |
+          cd client
+          pnpm install --no-frozen-lockfile
+          pnpm build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
