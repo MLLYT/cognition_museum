@@ -20,10 +20,9 @@ jobs:
           node-version: 20
 
       - name: Deep Clean and Force Build
-        # 这个步骤直接删除有冲突的 lock 文件，让 npm 现场干净地重装
+        # 这个步骤会自动删除原本的 lock 文件，让 npm 模块干净地重装
         run: |
           cd client
-          rm -rf node_modules
           npm install --legacy-peer-deps
           npm run build
 
