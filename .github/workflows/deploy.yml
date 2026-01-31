@@ -14,24 +14,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          # 告诉 pnpm 别管根目录有没有 lock 文件
-          run_install: false
-
-      - name: Set up Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Force Install and Build
-        # 进入 client 目录，强制安装依赖并立刻构建
+      - name: Deep Clean and Force Build
+        # 这个步骤直接删除有冲突的 lock 文件，让 npm 现场干净地重装
         run: |
           cd client
-          pnpm install --no-frozen-lockfile
-          pnpm build
+          rm -rf node_modules
+          npm install
+          npm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
