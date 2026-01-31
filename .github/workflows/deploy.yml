@@ -19,16 +19,14 @@ jobs:
         with:
           node-version: 20
 
-     - name: Deep Clean and Force Build
+      - name: Deep Clean and Force Build
         run: |
-          cd client
           npm install --legacy-peer-deps
           npm run build
-          ls -R dist  # 这一行是“探测器”，它会强行在 Log 里显示 dist 文件夹到底在哪
+          ls -R dist
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: client/dist
+          folder: dist
           branch: gh-pages
-          clean: true
